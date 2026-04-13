@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PR 리뷰 완료 — #{{ pr_number }}</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>PR 리뷰 완료</h1>
+    <p class="meta">
+      <strong>{{ pr_title }}</strong> &middot; PR #{{ pr_number }}
+      &middot; <a href="{{ pr_url }}" target="_blank">PR 보기</a>
+    </p>
+  </header>
+
+  <main>
+    <section class="review-section summary">
+      <h2>✅ GitHub에 코멘트가 게시되었습니다</h2>
+      <p style="margin: 12px 0;">
+        <a href="{{ comment_url }}" target="_blank" class="comment-link">
+          → GitHub에서 리뷰 코멘트 확인하기
+        </a>
+      </p>
+    </section>
+
+    <section class="review-section">
+      <h2>📋 생성된 리뷰 내용</h2>
+      <pre class="review-text">{{ final_review }}</pre>
+    </section>
+
+    <section class="review-section" style="text-align:center; padding: 20px;">
+      <a href="/" class="btn-primary" style="text-decoration:none; display:inline-block;">
+        ← 홈으로 돌아가기
+      </a>
+    </section>
+  </main>
+</body>
+</html>

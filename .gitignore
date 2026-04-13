@@ -1,0 +1,30 @@
+# 환경변수
+.env
+
+# 임시 클론 디렉토리
+/tmp/ai-code-reviewer/
+
+# 생성된 리포트
+reports/output/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Claude Code
+.claude/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

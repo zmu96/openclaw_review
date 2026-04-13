@@ -1,0 +1,92 @@
+"""
+web/routes.py — FastAPI 라우트 정의
+"""
+
+from fastapi import APIRouter, Request, Form, BackgroundTasks
+from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.templating import Jinja2Templates
+from pathlib import Path
+
+from agent.reviewer import CodeReviewer
+from agent.pr_reviewer import PRReviewer
+from core.reporter import Reporter
+
+router = APIRouter()
+templates = Jinja2Templates(directory=Path(__file__).parent / "templates")
+reviewer: CodeReviewer | None = None
+reporter: Reporter | None = None
+pr_reviewer: PRReviewer | None = None
+
+
+def get_reviewer() -> CodeReviewer:
+    global reviewer
+    if reviewer is None:
+        reviewer = CodeReviewer()
+    return reviewer
+
+
+def get_reporter() -> Reporter:
+    global reporter
+    if reporter is None:
+        reporter = Reporter()
+    return reporter
+
+
+def get_pr_reviewer() -> PRReviewer:
+    global pr_reviewer
+    if pr_reviewer is None:
+        pr_reviewer = PRReviewer()
+    return pr_reviewer
+
+
+@router.get("/", response_class=HTMLResponse)
+async def index(request: Request):
+    return templates.TemplateResponse(request, "index.html")
+
+
+@router.post("/review", response_class=HTMLResponse)
+async def run_review(request: Request, repo_url: str = Form(...)):
+    try:
+        result = await get_reviewer().review(repo_url)
+        html_path = get_reporter().save_html(result)
+        html_content = html_path.read_text(encoding="utf-8")
+        return HTMLResponse(content=html_content)
+    except Exception as e:
+        return templates.TemplateResponse(
+            request,
+            "index.html",
+            {"error": str(e)},
+            status_code=400,
+        )
+
+
+@router.get("/reports/{filename}")
+async def download_report(filename: str):
+    path = Path("./reports/output") / filename
+    if not path.exists():
+        return HTMLResponse("파일을 찾을 수 없습니다.", status_code=404)
+    return FileResponse(path)
+
+
+@router.post("/pr-review", response_class=HTMLResponse)
+async def run_pr_review(request: Request, pr_url: str = Form(...)):
+    try:
+        result = await get_pr_reviewer().review(pr_url)
+        return templates.TemplateResponse(
+            request,
+            "pr_result.html",
+            {
+                "pr_title": result.pr_title,
+                "pr_number": result.pr_number,
+                "pr_url": result.pr_url,
+                "comment_url": result.comment_url,
+                "final_review": result.final_review,
+            },
+        )
+    except Exception as e:
+        return templates.TemplateResponse(
+            request,
+            "index.html",
+            {"error": str(e)},
+            status_code=400,
+        )

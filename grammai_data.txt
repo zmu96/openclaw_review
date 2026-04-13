@@ -1,0 +1,840 @@
+{
+  "sha": "a9a4b3ae87971217315098f71022dc312083009f",
+  "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/a9a4b3ae87971217315098f71022dc312083009f",
+  "tree": [
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa724b77071afcbd9bb398053e05adaf7ac9405a",
+      "size": 225,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/aa724b77071afcbd9bb398053e05adaf7ac9405a"
+    },
+    {
+      "path": ".idea",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5b46c8cf85b6849338b428ce7158f246c0557b49",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/5b46c8cf85b6849338b428ce7158f246c0557b49"
+    },
+    {
+      "path": ".idea/.gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "26d33521af10bcc7fd8cea344038eaaeb78d0ef5",
+      "size": 47,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/26d33521af10bcc7fd8cea344038eaaeb78d0ef5"
+    },
+    {
+      "path": ".idea/AndroidProjectSystem.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4a53bee8cb948a6e677a1a320d0ecfbe26d4062e",
+      "size": 212,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/4a53bee8cb948a6e677a1a320d0ecfbe26d4062e"
+    },
+    {
+      "path": ".idea/compiler.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b86273d9424b73937ca6ad7933f6b7eeb60f4a3d",
+      "size": 169,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/b86273d9424b73937ca6ad7933f6b7eeb60f4a3d"
+    },
+    {
+      "path": ".idea/deploymentTargetSelector.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b268ef36cd2de3a14ddddf25aa9f5d4e95731e18",
+      "size": 301,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/b268ef36cd2de3a14ddddf25aa9f5d4e95731e18"
+    },
+    {
+      "path": ".idea/gradle.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "639c779c30dcea44b3fa466e6bdad0eee2f3cc8f",
+      "size": 690,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/639c779c30dcea44b3fa466e6bdad0eee2f3cc8f"
+    },
+    {
+      "path": ".idea/inspectionProfiles",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ba60484c038fd81238a47d6ca82b1bbf9e32addc",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/ba60484c038fd81238a47d6ca82b1bbf9e32addc"
+    },
+    {
+      "path": ".idea/inspectionProfiles/Project_Default.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7061a0d654fa843b77e14d1ba0477e18389bdb4b",
+      "size": 3649,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/7061a0d654fa843b77e14d1ba0477e18389bdb4b"
+    },
+    {
+      "path": ".idea/kotlinc.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c224ad564b2173cac8eb46408ee531bdc0f302ff",
+      "size": 176,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/c224ad564b2173cac8eb46408ee531bdc0f302ff"
+    },
+    {
+      "path": ".idea/migrations.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8051a6f973e69a86e6f07f1a1c87f17a31c7235",
+      "size": 254,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/f8051a6f973e69a86e6f07f1a1c87f17a31c7235"
+    },
+    {
+      "path": ".idea/misc.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "74dd639e4ea4800753c1dbdb333093410e843492",
+      "size": 448,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/74dd639e4ea4800753c1dbdb333093410e843492"
+    },
+    {
+      "path": ".idea/runConfigurations.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16660f1d80a1f5cde389ecce783051eb8f68223d",
+      "size": 964,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/16660f1d80a1f5cde389ecce783051eb8f68223d"
+    },
+    {
+      "path": ".kotlin",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f808b3c8cc4b2a7a281bfe33b747ac06503ff370",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/f808b3c8cc4b2a7a281bfe33b747ac06503ff370"
+    },
+    {
+      "path": ".kotlin/errors",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9432eaa08690475f2be0efa33961b3019e4c64d2",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/9432eaa08690475f2be0efa33961b3019e4c64d2"
+    },
+    {
+      "path": ".kotlin/errors/errors-1762617430936.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1219b509f098479c6674bbb228c2331631ac72f9",
+      "size": 185,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/1219b509f098479c6674bbb228c2331631ac72f9"
+    },
+    {
+      "path": "LICENSE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "08b3b59255bf1b36620e39c597c561d26228f93e",
+      "size": 1067,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/08b3b59255bf1b36620e39c597c561d26228f93e"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "22c296a3ffe96189c27bd2072e94b457973ca00b",
+      "size": 9285,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/22c296a3ffe96189c27bd2072e94b457973ca00b"
+    },
+    {
+      "path": "app",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1998693e78e7e4104a9019275a7fb9eae8270c31",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/1998693e78e7e4104a9019275a7fb9eae8270c31"
+    },
+    {
+      "path": "app/.gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "42afabfd2abebf31384ca7797186a27a4b7dbee8",
+      "size": 6,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/42afabfd2abebf31384ca7797186a27a4b7dbee8"
+    },
+    {
+      "path": "app/build.gradle.kts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a0675e58f2bece49d8806900cac8a6a59699fd62",
+      "size": 1679,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/a0675e58f2bece49d8806900cac8a6a59699fd62"
+    },
+    {
+      "path": "app/proguard-rules.pro",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "481bb434814107eb79d7a30b676d344b0df2f8ce",
+      "size": 750,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/481bb434814107eb79d7a30b676d344b0df2f8ce"
+    },
+    {
+      "path": "app/src",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1bad00ccc0158a5a932fdb37c44239fc6659a730",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/1bad00ccc0158a5a932fdb37c44239fc6659a730"
+    },
+    {
+      "path": "app/src/androidTest",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d1d69ae3ed50dcd4cf89098f860348ca1630c261",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/d1d69ae3ed50dcd4cf89098f860348ca1630c261"
+    },
+    {
+      "path": "app/src/androidTest/java",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "16b8dab2e38b404dd8b4b511389392a99a6a1ef6",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/16b8dab2e38b404dd8b4b511389392a99a6a1ef6"
+    },
+    {
+      "path": "app/src/androidTest/java/com",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0d2677eb2f9cd8c44b3f777c92fdca4240a71b5e",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/0d2677eb2f9cd8c44b3f777c92fdca4240a71b5e"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b03187c833b0c8514505d9566139e04497550372",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/b03187c833b0c8514505d9566139e04497550372"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/grammai",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a4be209774234315dc7cfd75c06bd6b055ab0283",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/a4be209774234315dc7cfd75c06bd6b055ab0283"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/grammai/ExampleInstrumentedTest.kt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bd99c7cbb5d4b297e0ff5b14f07b1f0160164baf",
+      "size": 665,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/bd99c7cbb5d4b297e0ff5b14f07b1f0160164baf"
+    },
+    {
+      "path": "app/src/main",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6a63544292f0cfaf40359f5cbf55b54d53de38c5",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/6a63544292f0cfaf40359f5cbf55b54d53de38c5"
+    },
+    {
+      "path": "app/src/main/AndroidManifest.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "33ee84ae43184089ab07f88891f886dc3a8f7742",
+      "size": 1959,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/33ee84ae43184089ab07f88891f886dc3a8f7742"
+    },
+    {
+      "path": "app/src/main/assets",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9b4aa32cd8dd150ccf1bc406d229958fef1079c3",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/9b4aa32cd8dd150ccf1bc406d229958fef1079c3"
+    },
+    {
+      "path": "app/src/main/assets/kot5_spellcheck_int8.onnx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "54aff6e81b75db71adccf05b9cc413cad855b576",
+      "size": 97466678,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/54aff6e81b75db71adccf05b9cc413cad855b576"
+    },
+    {
+      "path": "app/src/main/assets/tokenizer.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "757c5ea9620450b5dbb8e6f1a8bf49e5f848456f",
+      "size": 4369787,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/757c5ea9620450b5dbb8e6f1a8bf49e5f848456f"
+    },
+    {
+      "path": "app/src/main/java",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "01efb5e1a81d512f8fb9c78af8f21c45e712acf1",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/01efb5e1a81d512f8fb9c78af8f21c45e712acf1"
+    },
+    {
+      "path": "app/src/main/java/com",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0b958b26bfb8398ed16581d990eff11541fd66c3",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/0b958b26bfb8398ed16581d990eff11541fd66c3"
+    },
+    {
+      "path": "app/src/main/java/com/example",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b61bb3b633e348b88f15afb9d40018e9d71e43fa",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/b61bb3b633e348b88f15afb9d40018e9d71e43fa"
+    },
+    {
+      "path": "app/src/main/java/com/example/grammai",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3a61ec59821fdb41dab4a23203c7f9b895f30336",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/3a61ec59821fdb41dab4a23203c7f9b895f30336"
+    },
+    {
+      "path": "app/src/main/java/com/example/grammai/MainActivity.kt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0589332fa93b1c219c07817f14810c2e9ca5de5b",
+      "size": 3517,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/0589332fa93b1c219c07817f14810c2e9ca5de5b"
+    },
+    {
+      "path": "app/src/main/java/com/example/grammai/service",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "61f1ac0636b1cfcc0f1e37cd121ffb099d2dad90",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/61f1ac0636b1cfcc0f1e37cd121ffb099d2dad90"
+    },
+    {
+      "path": "app/src/main/java/com/example/grammai/service/CorrectionImeService.kt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a79020016c03a8e9fd784210ee5c69ac1906d35",
+      "size": 20352,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/6a79020016c03a8e9fd784210ee5c69ac1906d35"
+    },
+    {
+      "path": "app/src/main/java/com/example/grammai/service/HangulCombiner.kt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8ae54077db63dab6efae12fd17f8748d8942045",
+      "size": 13854,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/f8ae54077db63dab6efae12fd17f8748d8942045"
+    },
+    {
+      "path": "app/src/main/java/com/example/grammai/ui",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2368dd97fa3d043d9e3351075eb61fc8fd9af65b",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/2368dd97fa3d043d9e3351075eb61fc8fd9af65b"
+    },
+    {
+      "path": "app/src/main/java/com/example/grammai/ui/theme",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b9871337db253148450728c0bf220c384da83ad0",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/b9871337db253148450728c0bf220c384da83ad0"
+    },
+    {
+      "path": "app/src/main/java/com/example/grammai/ui/theme/Color.kt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b9a4a654990ffd5a98644d73aa18ac2432499ae7",
+      "size": 283,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/b9a4a654990ffd5a98644d73aa18ac2432499ae7"
+    },
+    {
+      "path": "app/src/main/java/com/example/grammai/ui/theme/Theme.kt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a7daea853e6578b0d0c510a8d7c8f8bc3cd8b335",
+      "size": 1694,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/a7daea853e6578b0d0c510a8d7c8f8bc3cd8b335"
+    },
+    {
+      "path": "app/src/main/java/com/example/grammai/ui/theme/Type.kt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "704f71df22d0338e22c1e28d803f1440826ee644",
+      "size": 988,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/704f71df22d0338e22c1e28d803f1440826ee644"
+    },
+    {
+      "path": "app/src/main/res",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "bd552895455a42f4881c885d26774805c3c7aa46",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/bd552895455a42f4881c885d26774805c3c7aa46"
+    },
+    {
+      "path": "app/src/main/res/anim",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e4f5c988b03dfca4d89a2c37b1221736c824e15d",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/e4f5c988b03dfca4d89a2c37b1221736c824e15d"
+    },
+    {
+      "path": "app/src/main/res/anim/slide_in_bottom.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "893368c37cda6e746c7de5abe38b3ff4cf017b3e",
+      "size": 223,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/893368c37cda6e746c7de5abe38b3ff4cf017b3e"
+    },
+    {
+      "path": "app/src/main/res/anim/slide_out_bottom.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ba20cfc2b9aa1af285a2d79574b61ac2bab33f74",
+      "size": 223,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/ba20cfc2b9aa1af285a2d79574b61ac2bab33f74"
+    },
+    {
+      "path": "app/src/main/res/drawable",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b0fe9d6ab7ca5fb1eab711cd395f9ab3f316bdfd",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/b0fe9d6ab7ca5fb1eab711cd395f9ab3f316bdfd"
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_launcher_background.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "07d5da9cbf141911847041df5d7b87f0dd5ef9d4",
+      "size": 5606,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/07d5da9cbf141911847041df5d7b87f0dd5ef9d4"
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_launcher_foreground.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2b068d11462a4b96669193de13a711a3a36220a0",
+      "size": 1702,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/2b068d11462a4b96669193de13a711a3a36220a0"
+    },
+    {
+      "path": "app/src/main/res/drawable/key_background.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c22f807f71053fabe731f69cefde0376b8658ea4",
+      "size": 472,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/c22f807f71053fabe731f69cefde0376b8658ea4"
+    },
+    {
+      "path": "app/src/main/res/drawable/key_background_function.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e3b917f2c2c3bf2ed5d1392e4027674ae580d9f",
+      "size": 472,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/7e3b917f2c2c3bf2ed5d1392e4027674ae580d9f"
+    },
+    {
+      "path": "app/src/main/res/drawable/key_background_function_on.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e3779aaa386c84ca2f0f8ad6f60d3be787e4c997",
+      "size": 472,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/e3779aaa386c84ca2f0f8ad6f60d3be787e4c997"
+    },
+    {
+      "path": "app/src/main/res/drawable/selector_shift_key.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "70e234368009fc587cbb5679b29a0d2f3a427adb",
+      "size": 565,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/70e234368009fc587cbb5679b29a0d2f3a427adb"
+    },
+    {
+      "path": "app/src/main/res/layout",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "be424bc3c7ec95bfdaefe4a76edc880992a78032",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/be424bc3c7ec95bfdaefe4a76edc880992a78032"
+    },
+    {
+      "path": "app/src/main/res/layout/ime_keyboard_all_modes.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4bec892bb937fcfddc4d1ff1fdad0e13892d31df",
+      "size": 32139,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/4bec892bb937fcfddc4d1ff1fdad0e13892d31df"
+    },
+    {
+      "path": "app/src/main/res/layout/ime_keyboard_english.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fb46e838f5ced11667033f5512640a29c44025c9",
+      "size": 5540,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/fb46e838f5ced11667033f5512640a29c44025c9"
+    },
+    {
+      "path": "app/src/main/res/layout/ime_keyboard_symbol.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1bdef8313c8e4b6b602d94ece24f253f6eda8eb4",
+      "size": 6687,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/1bdef8313c8e4b6b602d94ece24f253f6eda8eb4"
+    },
+    {
+      "path": "app/src/main/res/layout/ime_keyboard_symbol2.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a306b50806e74717921ca46d3e7787f138fa4a08",
+      "size": 6435,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/a306b50806e74717921ca46d3e7787f138fa4a08"
+    },
+    {
+      "path": "app/src/main/res/layout/ime_keyboard_view.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "871834e9efe65bff7828f3339e27a85f5d948fb3",
+      "size": 5652,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/871834e9efe65bff7828f3339e27a85f5d948fb3"
+    },
+    {
+      "path": "app/src/main/res/mipmap-anydpi-v26",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "46123c8a05f7c8ae0d069692786b4f3b1a0648d7",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/46123c8a05f7c8ae0d069692786b4f3b1a0648d7"
+    },
+    {
+      "path": "app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f3b755bf50c6b03d8714a9c6184705e6a08389f",
+      "size": 343,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/6f3b755bf50c6b03d8714a9c6184705e6a08389f"
+    },
+    {
+      "path": "app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f3b755bf50c6b03d8714a9c6184705e6a08389f",
+      "size": 343,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/6f3b755bf50c6b03d8714a9c6184705e6a08389f"
+    },
+    {
+      "path": "app/src/main/res/mipmap-hdpi",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "42022c214b8c47a5d5f9774197529f763d5716a0",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/42022c214b8c47a5d5f9774197529f763d5716a0"
+    },
+    {
+      "path": "app/src/main/res/mipmap-hdpi/ic_launcher.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c209e78ecd372343283f4157dcfd918ec5165bb3",
+      "size": 1404,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/c209e78ecd372343283f4157dcfd918ec5165bb3"
+    },
+    {
+      "path": "app/src/main/res/mipmap-hdpi/ic_launcher_round.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b2dfe3d1ba5cf3ee31b3ecc1ced89044a1f3b7a9",
+      "size": 2898,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/b2dfe3d1ba5cf3ee31b3ecc1ced89044a1f3b7a9"
+    },
+    {
+      "path": "app/src/main/res/mipmap-mdpi",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c033b6b2e70a2d6993c415f583601bc6745f63fb",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/c033b6b2e70a2d6993c415f583601bc6745f63fb"
+    },
+    {
+      "path": "app/src/main/res/mipmap-mdpi/ic_launcher.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4f0f1d64e58ba64d180ce43ee13bf9a17835fbca",
+      "size": 982,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/4f0f1d64e58ba64d180ce43ee13bf9a17835fbca"
+    },
+    {
+      "path": "app/src/main/res/mipmap-mdpi/ic_launcher_round.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "62b611da081676d42f6c3f78a2c91e7bcedddedb",
+      "size": 1772,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/62b611da081676d42f6c3f78a2c91e7bcedddedb"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xhdpi",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "07615786dd22a6c2df1ebd0b3a53fcd204d49d6c",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/07615786dd22a6c2df1ebd0b3a53fcd204d49d6c"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xhdpi/ic_launcher.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "948a3070fe34c611c42c0d3ad3013a0dce358be0",
+      "size": 1900,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/948a3070fe34c611c42c0d3ad3013a0dce358be0"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b9a6956b3acdc11f40ce2bb3f6efbd845cc243f",
+      "size": 3918,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/1b9a6956b3acdc11f40ce2bb3f6efbd845cc243f"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xxhdpi",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1217e928894cecf247fd980964e5e9f7fad16e4e",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/1217e928894cecf247fd980964e5e9f7fad16e4e"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xxhdpi/ic_launcher.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "28d4b77f9f036a47549d47db79c16788749dca10",
+      "size": 2884,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/28d4b77f9f036a47549d47db79c16788749dca10"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9287f5083623b375139afb391af71cc533a7dd37",
+      "size": 5914,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/9287f5083623b375139afb391af71cc533a7dd37"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xxxhdpi",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a3de34961096076e3ad578310142d8e33859d1bb",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/a3de34961096076e3ad578310142d8e33859d1bb"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa7d6427e6fa1074b79ccd52ef67ac15c5637e85",
+      "size": 3844,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/aa7d6427e6fa1074b79ccd52ef67ac15c5637e85"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9126ae37cbc3587421d6889eadd1d91fbf1994d4",
+      "size": 7778,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/9126ae37cbc3587421d6889eadd1d91fbf1994d4"
+    },
+    {
+      "path": "app/src/main/res/values",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "aa605bd5619eec08cc64cc3baba2f291fe6ee214",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/aa605bd5619eec08cc64cc3baba2f291fe6ee214"
+    },
+    {
+      "path": "app/src/main/res/values/colors.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "507ef7ff3db9387acd36f1ad7d57f1f6a8532f97",
+      "size": 691,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/507ef7ff3db9387acd36f1ad7d57f1f6a8532f97"
+    },
+    {
+      "path": "app/src/main/res/values/strings.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "44e5818715b2c0cac936642aab862957a3ce0951",
+      "size": 69,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/44e5818715b2c0cac936642aab862957a3ce0951"
+    },
+    {
+      "path": "app/src/main/res/values/styles.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c282af5af8b97b2dc727cf16c99e27bb356a5b9e",
+      "size": 1465,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/c282af5af8b97b2dc727cf16c99e27bb356a5b9e"
+    },
+    {
+      "path": "app/src/main/res/values/themes.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8568cd6bd10ff61315768bfe18242e22e26ee8c",
+      "size": 149,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/f8568cd6bd10ff61315768bfe18242e22e26ee8c"
+    },
+    {
+      "path": "app/src/main/res/xml",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ce6ff4736196c17a73e40eda4c26cfbdbbf4387e",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/ce6ff4736196c17a73e40eda4c26cfbdbbf4387e"
+    },
+    {
+      "path": "app/src/main/res/xml/backup_rules.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4df925582478cf0d469c4cff9a4bb50859f3230a",
+      "size": 478,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/4df925582478cf0d469c4cff9a4bb50859f3230a"
+    },
+    {
+      "path": "app/src/main/res/xml/data_extraction_rules.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9ee9997b0b4726e57c27b2f7b21462b604ff8a88",
+      "size": 551,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/9ee9997b0b4726e57c27b2f7b21462b604ff8a88"
+    },
+    {
+      "path": "app/src/main/res/xml/method.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "48695b65e2597faa7ae4cc0688eec0a396c88973",
+      "size": 400,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/48695b65e2597faa7ae4cc0688eec0a396c88973"
+    },
+    {
+      "path": "app/src/main/res/xml/network_security_config.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0cd336ca925ab02b51cbbabe62dfca3e17f79a62",
+      "size": 230,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/0cd336ca925ab02b51cbbabe62dfca3e17f79a62"
+    },
+    {
+      "path": "app/src/test",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "43089a1073a476e51effd1b42a63562ff5d9927f",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/43089a1073a476e51effd1b42a63562ff5d9927f"
+    },
+    {
+      "path": "app/src/test/java",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b7ebc1094441bc172ab3cc361e5df865ffc9d2bf",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/b7ebc1094441bc172ab3cc361e5df865ffc9d2bf"
+    },
+    {
+      "path": "app/src/test/java/com",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "fbe3e0555bdcf8ef00498e70fb372de9352e4953",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/fbe3e0555bdcf8ef00498e70fb372de9352e4953"
+    },
+    {
+      "path": "app/src/test/java/com/example",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9b6739ac59d2f2fcd629face8b93fc6e80ebec13",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/9b6739ac59d2f2fcd629face8b93fc6e80ebec13"
+    },
+    {
+      "path": "app/src/test/java/com/example/grammai",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "16137de5fe9c47d1c0cfaaa40dcb8372ae59044a",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/16137de5fe9c47d1c0cfaaa40dcb8372ae59044a"
+    },
+    {
+      "path": "app/src/test/java/com/example/grammai/ExampleUnitTest.kt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9af5991aa15dc6d2c2db5be108e5a6c6bf864071",
+      "size": 343,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/9af5991aa15dc6d2c2db5be108e5a6c6bf864071"
+    },
+    {
+      "path": "build.gradle.kts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "558960c6a642123275a7232dc8b4329a4aa86b36",
+      "size": 970,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/558960c6a642123275a7232dc8b4329a4aa86b36"
+    },
+    {
+      "path": "gradle.properties",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20e2a01520742aff4ec9ce578ed4fe5f3a76fe77",
+      "size": 1346,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/20e2a01520742aff4ec9ce578ed4fe5f3a76fe77"
+    },
+    {
+      "path": "gradle",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9288335b0e35a2dfa316bbd6c817ce8a23abfc72",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/9288335b0e35a2dfa316bbd6c817ce8a23abfc72"
+    },
+    {
+      "path": "gradle/libs.versions.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3ab4296325065cc66ee6aeb27eb516f538f17213",
+      "size": 2171,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/3ab4296325065cc66ee6aeb27eb516f538f17213"
+    },
+    {
+      "path": "gradle/wrapper",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "33085a5fdae5bc515382f1b72e863948a6297724",
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/trees/33085a5fdae5bc515382f1b72e863948a6297724"
+    },
+    {
+      "path": "gradle/wrapper/gradle-wrapper.jar",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e708b1c023ec8b20f512888fe07c5bd3ff77bb8f",
+      "size": 59203,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/e708b1c023ec8b20f512888fe07c5bd3ff77bb8f"
+    },
+    {
+      "path": "gradle/wrapper/gradle-wrapper.properties",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7536a1ff28ac5379144c9284de361f50f7de3a94",
+      "size": 233,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/7536a1ff28ac5379144c9284de361f50f7de3a94"
+    },
+    {
+      "path": "gradlew",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4f906e0c811fc9e230eb44819f509cd0627f2600",
+      "size": 5766,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/4f906e0c811fc9e230eb44819f509cd0627f2600"
+    },
+    {
+      "path": "gradlew.bat",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "107acd32c4e687021ef32db511e8a206129b88ec",
+      "size": 2674,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/107acd32c4e687021ef32db511e8a206129b88ec"
+    },
+    {
+      "path": "secrets.properties",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0a11f7c1775360171c8097710816c19ab03f2ebf",
+      "size": 56,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/0a11f7c1775360171c8097710816c19ab03f2ebf"
+    },
+    {
+      "path": "settings.gradle.kts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e1bc66722e5849436231c13f4556e4c79755130",
+      "size": 532,
+      "url": "https://api.github.com/repos/zmu96/Grammai/git/blobs/4e1bc66722e5849436231c13f4556e4c79755130"
+    }
+  ],
+  "truncated": false
+}
