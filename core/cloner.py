@@ -4,6 +4,7 @@ core/cloner.py — GitHub 레포지토리 클론 및 정리
 
 import os
 import stat
+import sys
 import shutil
 from pathlib import Path
 from git import Repo, GitCommandError
@@ -13,6 +14,14 @@ def _remove_readonly(func, path, _):
     """읽기 전용 파일의 속성을 해제하고 재시도합니다 (Windows .git 폴더 대응)."""
     os.chmod(path, stat.S_IWRITE)
     func(path)
+
+
+def _rmtree(path: Path) -> None:
+    """Python 3.9/3.12 양쪽 호환 rmtree (onexc vs onerror)."""
+    if sys.version_info >= (3, 12):
+        shutil.rmtree(path, onexc=_remove_readonly)
+    else:
+        shutil.rmtree(path, onerror=_remove_readonly)
 
 
 class RepoCloner:
@@ -26,7 +35,7 @@ class RepoCloner:
         clone_path = Path(self.base_dir) / repo_name
 
         if clone_path.exists():
-            shutil.rmtree(clone_path, onexc=_remove_readonly)
+            _rmtree(clone_path)
 
         try:
             Repo.clone_from(repo_url, clone_path, depth=1)  # shallow clone으로 속도 개선
@@ -38,7 +47,7 @@ class RepoCloner:
     def cleanup(self, repo_path: Path) -> None:
         """분석 완료 후 클론된 디렉토리를 삭제합니다."""
         if repo_path.exists():
-            shutil.rmtree(repo_path, onexc=_remove_readonly)
+            _rmtree(repo_path)
 
     def _extract_repo_name(self, repo_url: str) -> str:
         name = repo_url.rstrip("/").split("/")[-1]
