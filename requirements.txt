@@ -1,5 +1,5 @@
 # ───────────────────────────────────────────
-# AI Code Reviewer — requirements.txt
+# PRism — requirements.txt
 # Python 3.11+
 # ───────────────────────────────────────────
 

@@ -2,7 +2,7 @@
 .env
 
 # 임시 클론 디렉토리
-/tmp/ai-code-reviewer/
+/tmp/prism/
 
 # 생성된 리포트
 reports/output/

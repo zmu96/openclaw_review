@@ -174,13 +174,13 @@ class ApprovalView(discord.ui.View):
                 raise ValueError("로컬 클론이 존재하지 않습니다. /review를 다시 실행하세요.")
 
             git_ops = GitHubOps(github_token)
-            branch_name = f"openclaw/{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+            branch_name = f"PRism/{datetime.now().strftime('%Y%m%d-%H%M%S')}"
             pr_body = (
-                "## 🤖 openclaw 자동 코드 리뷰 수정\n\n"
+                "## 🤖 PRism 자동 코드 리뷰 수정\n\n"
                 f"### 수정 내용\n{session.fix_plan.summary}\n\n"
                 "### 수정 파일\n"
                 + "\n".join(f"- `{f}`" for f in session.fix_plan.affected_files)
-                + "\n\n*이 PR은 openclaw AI 코드 리뷰어가 자동 생성했습니다.*"
+                + "\n\n*이 PR은 PRism AI 코드 리뷰어가 자동 생성했습니다.*"
             )
 
             pr_url = await git_ops.apply_and_create_pr(
@@ -189,7 +189,7 @@ class ApprovalView(discord.ui.View):
                 repo=session.repo_name,
                 patches=session.fix_plan.patches,
                 branch_name=branch_name,
-                pr_title=f"[openclaw] 자동 코드 리뷰 수정 ({datetime.now().strftime('%Y-%m-%d')})",
+                pr_title=f"[PRism] 자동 코드 리뷰 수정 ({datetime.now().strftime('%Y-%m-%d')})",
                 pr_body=pr_body,
             )
 

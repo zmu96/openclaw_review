@@ -17,7 +17,7 @@ def _remove_readonly(func, path, _):
 
 class RepoCloner:
     def __init__(self, base_dir: str | None = None):
-        self.base_dir = base_dir or os.getenv("CLONE_BASE_DIR", "/tmp/ai-code-reviewer")
+        self.base_dir = base_dir or os.getenv("CLONE_BASE_DIR", "/tmp/prism")
         Path(self.base_dir).mkdir(parents=True, exist_ok=True)
 
     def clone(self, repo_url: str) -> Path:

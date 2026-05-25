@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: openclaw
+    name: prism
     runtime: python
     buildCommand: pip install -r requirements.txt
     startCommand: python main.py --mode both
@@ -10,7 +10,7 @@ services:
       - key: APP_ENV
         value: production
       - key: CLONE_BASE_DIR
-        value: /tmp/ai-code-reviewer
+        value: /tmp/prism
       - key: REPORT_OUTPUT_DIR
         value: /tmp/reports
       # 아래 키들은 Render Dashboard > Environment 탭에서 직접 입력

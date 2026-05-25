@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).parent
 
 def create_app() -> FastAPI:
     app = FastAPI(
-        title="AI Code Reviewer",
+        title="PRism",
         description="GitHub 레포지토리 AI 코드 리뷰 서비스",
         version="0.1.0",
     )

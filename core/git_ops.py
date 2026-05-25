@@ -75,7 +75,7 @@ class GitHubOps:
 
         # 스테이징 + 커밋
         git_repo.git.add("-A")
-        git_repo.git.commit("-m", "fix: openclaw 자동 코드 리뷰 수정")
+        git_repo.git.commit("-m", "fix: PRism 자동 코드 리뷰 수정")
 
         # GITHUB_TOKEN으로 push
         remote_url = f"https://{self._token}@github.com/{owner}/{repo}.git"

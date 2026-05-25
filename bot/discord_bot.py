@@ -19,7 +19,7 @@ class CodeReviewBot:
         self.bot = commands.Bot(
             command_prefix="!",
             intents=intents,
-            description="AI 코드 리뷰 봇",
+            description="PRism 코드 리뷰 봇",
         )
         self._setup_events()
 

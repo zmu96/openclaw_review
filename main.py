@@ -50,7 +50,7 @@ async def run_both():
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="AI Code Reviewer")
+    parser = argparse.ArgumentParser(description="PRism")
     parser.add_argument(
         "--mode",
         choices=["web", "discord", "both"],
