@@ -9,9 +9,12 @@ main.py — 애플리케이션 진입점
 
 import argparse
 import asyncio
+import os
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
+
+_PORT = int(os.getenv("PORT", 8000))
 
 
 def run_web():
@@ -19,7 +22,7 @@ def run_web():
     from web.app import create_app
 
     app = create_app()
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=_PORT)
 
 
 async def run_discord():
@@ -37,7 +40,7 @@ async def run_both():
     app = create_app()
     bot = create_bot()
 
-    config = uvicorn.Config(app, host="0.0.0.0", port=8000)
+    config = uvicorn.Config(app, host="0.0.0.0", port=_PORT)
     server = uvicorn.Server(config)
 
     await asyncio.gather(

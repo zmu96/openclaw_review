@@ -4,7 +4,7 @@
 # ───────────────────────────────────────────
 
 # ── AI ──────────────────────────────────────
-google-generativeai==0.7.2        # Gemini API 클라이언트
+google-genai>=0.8.0               # Gemini API 클라이언트 (신버전 SDK: google.genai)
 anthropic>=0.40.0                 # Claude API (1순위)
 groq>=0.9.0                       # Groq 폴백용 (3순위)
 

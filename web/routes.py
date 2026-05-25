@@ -3,7 +3,7 @@ web/routes.py — FastAPI 라우트 정의
 """
 
 from fastapi import APIRouter, Request, Form, BackgroundTasks
-from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.responses import HTMLResponse, FileResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
 
@@ -37,6 +37,11 @@ def get_pr_reviewer() -> PRReviewer:
     if pr_reviewer is None:
         pr_reviewer = PRReviewer()
     return pr_reviewer
+
+
+@router.get("/health")
+async def health():
+    return JSONResponse({"status": "ok"})
 
 
 @router.get("/", response_class=HTMLResponse)
