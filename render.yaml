@@ -14,8 +14,7 @@ services:
       - key: REPORT_OUTPUT_DIR
         value: /tmp/reports
       # 아래 키들은 Render Dashboard > Environment 탭에서 직접 입력
-      # - key: ANTHROPIC_API_KEY
-      # - key: GEMINI_API_KEYS
-      # - key: GROQ_API_KEY
-      # - key: GITHUB_TOKEN
       # - key: DISCORD_BOT_TOKEN
+      # - key: GITHUB_TOKEN
+      # - key: FERNET_KEY
+      # - key: ANTHROPIC_API_KEY   # 웹 UI 전용 (선택)

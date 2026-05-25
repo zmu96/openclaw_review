@@ -2,22 +2,18 @@
 agent/reviewer.py — 리뷰 오케스트레이터 (전체 파이프라인 조율)
 """
 
-import asyncio
 from dataclasses import dataclass, field
 from pathlib import Path
 
 from core.cloner import RepoCloner
 from core.analyzer import ProjectAnalyzer, ProjectStructure, DirSummary
 from core.chunker import FileChunker
-from agent.gemini_client import GeminiClient
+from agent.gemini_client import LLMClient
 from agent.prompts import (
     build_structure_prompt,
     build_code_review_prompt,
     build_summary_prompt,
 )
-
-# Gemini 무료 티어: 분당 15 요청 → 요청 사이 최소 대기
-REQUEST_INTERVAL_SECONDS = 5
 
 
 @dataclass
@@ -34,11 +30,11 @@ class ReviewResult:
 
 
 class CodeReviewer:
-    def __init__(self):
+    def __init__(self, llm: LLMClient):
         self.cloner = RepoCloner()
         self.analyzer = ProjectAnalyzer()
         self.chunker = FileChunker()
-        self.gemini = GeminiClient()
+        self.llm = llm
 
     async def review(self, repo_url: str) -> ReviewResult:
         repo_path = None
@@ -57,8 +53,7 @@ class CodeReviewer:
             structure_prompt = build_structure_prompt(
                 all_file_paths, structure.language_stats
             )
-            structure_review = await self.gemini.generate(structure_prompt)
-            await asyncio.sleep(REQUEST_INTERVAL_SECONDS)
+            structure_review = await self.llm.generate(structure_prompt)
 
             # 4. 코드 청킹 및 청크별 리뷰
             chunks = self.chunker.build_chunks(structure)
@@ -66,14 +61,12 @@ class CodeReviewer:
             for i, chunk in enumerate(chunks, start=1):
                 content = self.chunker.read_chunk_contents(chunk)
                 prompt = build_code_review_prompt(content, i, len(chunks))
-                review_text = await self.gemini.generate(prompt)
+                review_text = await self.llm.generate(prompt)
                 chunk_reviews.append(review_text)
-                if i < len(chunks):
-                    await asyncio.sleep(REQUEST_INTERVAL_SECONDS)
 
             # 5. 최종 요약
             final_prompt = build_summary_prompt([structure_review] + chunk_reviews)
-            final_summary = await self.gemini.generate(final_prompt)
+            final_summary = await self.llm.generate(final_prompt)
 
             # 6. 파일 내용 캡처 (Discord 코드 수정 플로우용 — cleanup 전에 읽어야 함)
             file_contents: dict[str, str] = {}

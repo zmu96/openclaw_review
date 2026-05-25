@@ -4,8 +4,9 @@
 
 - Python 3.11 이상
 - Git
-- Gemini API 키 ([Google AI Studio](https://aistudio.google.com)에서 발급)
 - 디스코드 봇 토큰 ([Discord Developer Portal](https://discord.com/developers/applications))
+- GitHub Personal Access Token (repo 스코프)
+- 사용자별 Anthropic API 키 ([console.anthropic.com](https://console.anthropic.com))
 
 ---
 
@@ -23,7 +24,12 @@ pip install -r requirements.txt
 
 ```bash
 cp .env.example .env
-# .env 파일을 열고 GEMINI_API_KEY, DISCORD_BOT_TOKEN 입력
+# .env 파일을 열고 DISCORD_BOT_TOKEN, GITHUB_TOKEN, FERNET_KEY 입력
+```
+
+FERNET_KEY 생성:
+```bash
+python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
 ```
 
 ### 3. 실행
@@ -39,23 +45,29 @@ python main.py --mode discord
 python main.py --mode both
 ```
 
-웹 UI: http://localhost:8000  
-API 문서: http://localhost:8000/docs
+웹 UI: http://localhost:10000  
+API 문서: http://localhost:10000/docs
 
 ---
 
 ## 디스코드 봇 사용법
 
-서버에 봇을 초대한 뒤:
+서버에 봇을 초대한 뒤, **최초 1회 API 키 등록**:
 
 ```
-!review https://github.com/username/repository
+/setup
 ```
 
-또는 슬래시 커맨드:
+봇이 DM으로 Anthropic API 키 입력을 안내합니다.  
+등록 후 리뷰 명령어 사용:
 
 ```
 /review url:https://github.com/username/repository
+```
+
+키 삭제:
+```
+/deletekey
 ```
 
 ---
@@ -73,5 +85,9 @@ pytest tests/ -v
 1. GitHub에 이 레포를 push
 2. [Render](https://render.com) → New Web Service → GitHub 레포 연결
 3. Build Command: `pip install -r requirements.txt`
-4. Start Command: `python main.py --mode web`
-5. 환경변수 탭에서 `GEMINI_API_KEY` 등 입력
+4. Start Command: `python main.py --mode both`
+5. Environment 탭에서 아래 변수 입력:
+   - `DISCORD_BOT_TOKEN`
+   - `GITHUB_TOKEN`
+   - `FERNET_KEY`
+   - `ANTHROPIC_API_KEY` (웹 UI 사용 시에만)

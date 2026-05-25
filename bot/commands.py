@@ -12,10 +12,11 @@ from discord.ext import commands
 
 from agent.reviewer import CodeReviewer
 from agent.code_fixer import CodeFixer
-from agent.gemini_client import GeminiClient
+from agent.gemini_client import LLMClient
 from core.git_ops import GitHubOps
 from core.reporter import Reporter
 from bot.review_session import ReviewSession
+from bot import key_store
 import bot.review_session as session_store
 
 DISCORD_MAX_CHARS = 1900
@@ -105,7 +106,11 @@ class ActionView(discord.ui.View):
         await interaction.followup.send("🔧 수정 계획을 생성하고 있습니다. 잠시 기다려 주세요...")
 
         try:
-            llm = GeminiClient()
+            api_key = key_store.get_key(self.user_id)
+            if not api_key:
+                await interaction.followup.send("❌ API 키 세션이 만료되었습니다. `/setup`을 다시 실행하세요.")
+                return
+            llm = LLMClient(api_key=api_key)
             fixer = CodeFixer(llm)
             fix_plan = await fixer.generate_fix_plan(session.review_text, session.file_contents)
             session.fix_plan = fix_plan
@@ -223,8 +228,59 @@ class ApprovalView(discord.ui.View):
 class ReviewCommands(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.reviewer = CodeReviewer()
         self.reporter = Reporter()
+
+    @app_commands.command(name="setup", description="Anthropic API 키를 DM으로 등록합니다")
+    async def setup_slash(self, interaction: discord.Interaction):
+        await interaction.response.send_message("🔑 DM으로 안내를 보냈습니다.", ephemeral=True)
+        try:
+            dm = await interaction.user.create_dm()
+            await dm.send(
+                "**PRism API 키 설정**\n\n"
+                "Anthropic API 키를 이 채팅에 붙여넣기 해주세요.\n"
+                "키는 `sk-ant-...` 형식입니다.\n"
+                "<https://console.anthropic.com> 에서 발급받을 수 있습니다.\n\n"
+                "⏰ 2분 안에 입력해 주세요.\n"
+                "⚠️ 전송 후 보안을 위해 메시지를 직접 삭제해 주세요."
+            )
+
+            def check(m: discord.Message) -> bool:
+                return m.author.id == interaction.user.id and isinstance(m.channel, discord.DMChannel)
+
+            msg = await self.bot.wait_for("message", check=check, timeout=120)
+            api_key = msg.content.strip()
+
+            if not api_key.startswith("sk-ant-"):
+                await dm.send("❌ 올바른 Anthropic API 키 형식이 아닙니다 (`sk-ant-...`). `/setup`을 다시 실행하세요.")
+                return
+
+            await dm.send("🔍 키 유효성을 확인 중입니다...")
+            ok, err = await LLMClient(api_key=api_key).validate()
+            if not ok:
+                await dm.send(f"❌ 키 검증 실패: {err}\n올바른 키를 확인 후 `/setup`을 다시 실행하세요.")
+                return
+
+            key_store.set_key(interaction.user.id, api_key)
+            await dm.send("✅ API 키가 등록되었습니다. 이제 `/review` 명령어를 사용할 수 있습니다.")
+
+        except TimeoutError:
+            try:
+                await interaction.user.send("⏰ 시간 초과. `/setup`을 다시 실행하세요.")
+            except discord.Forbidden:
+                pass
+        except discord.Forbidden:
+            await interaction.followup.send(
+                "❌ DM을 보낼 수 없습니다. Discord 설정에서 서버 멤버의 DM을 허용해 주세요.",
+                ephemeral=True,
+            )
+
+    @app_commands.command(name="deletekey", description="등록된 API 키를 삭제합니다")
+    async def deletekey_slash(self, interaction: discord.Interaction):
+        if key_store.has_key(interaction.user.id):
+            key_store.delete_key(interaction.user.id)
+            await interaction.response.send_message("🗑️ API 키가 삭제되었습니다.", ephemeral=True)
+        else:
+            await interaction.response.send_message("등록된 API 키가 없습니다.", ephemeral=True)
 
     @commands.command(name="review")
     async def review_prefix(self, ctx: commands.Context, repo_url: str):
@@ -248,11 +304,17 @@ class ReviewCommands(commands.Cog):
             )
             return
 
+        api_key = key_store.get_key(user_id)
+        if not api_key:
+            await send_fn("❌ API 키가 등록되지 않았습니다. `/setup`을 먼저 실행하세요.")
+            return
+
         owner, repo_name = parsed
         await send_fn(f"🔍 `{repo_url}` 분석을 시작합니다. 잠시 기다려 주세요...")
 
         try:
-            result = await self.reviewer.review(repo_url)
+            reviewer = CodeReviewer(llm=LLMClient(api_key=api_key))
+            result = await reviewer.review(repo_url)
 
             # 상세 리뷰 전문 합본 (구조 + 청크별 + 최종 요약)
             full_review = "\n\n---\n\n".join(

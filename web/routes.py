@@ -2,6 +2,7 @@
 web/routes.py — FastAPI 라우트 정의
 """
 
+import os
 from fastapi import APIRouter, Request, Form, BackgroundTasks
 from fastapi.responses import HTMLResponse, FileResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
@@ -9,6 +10,7 @@ from pathlib import Path
 
 from agent.reviewer import CodeReviewer
 from agent.pr_reviewer import PRReviewer
+from agent.gemini_client import LLMClient
 from core.reporter import Reporter
 
 router = APIRouter()
@@ -18,10 +20,17 @@ reporter: Reporter | None = None
 pr_reviewer: PRReviewer | None = None
 
 
+def _web_llm() -> LLMClient:
+    key = os.getenv("ANTHROPIC_API_KEY")
+    if not key:
+        raise ValueError("웹 UI를 사용하려면 ANTHROPIC_API_KEY 환경변수를 설정하세요.")
+    return LLMClient(api_key=key)
+
+
 def get_reviewer() -> CodeReviewer:
     global reviewer
     if reviewer is None:
-        reviewer = CodeReviewer()
+        reviewer = CodeReviewer(llm=_web_llm())
     return reviewer
 
 
@@ -35,7 +44,7 @@ def get_reporter() -> Reporter:
 def get_pr_reviewer() -> PRReviewer:
     global pr_reviewer
     if pr_reviewer is None:
-        pr_reviewer = PRReviewer()
+        pr_reviewer = PRReviewer(llm=_web_llm())
     return pr_reviewer
 
 

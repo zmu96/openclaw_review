@@ -9,11 +9,8 @@ from dataclasses import dataclass
 from core.pr_fetcher import PRFetcher
 from core.pr_chunker import PRDiffChunker
 from core.pr_commenter import PRCommenter
-from agent.gemini_client import GeminiClient
+from agent.gemini_client import LLMClient
 from agent.pr_prompts import build_pr_review_prompt, build_pr_final_prompt
-
-# Gemini 무료 티어 rate limit 대응 (분당 15 요청)
-REQUEST_INTERVAL_SECONDS = 5
 
 
 @dataclass
@@ -28,14 +25,14 @@ class PRReviewResult:
 
 
 class PRReviewer:
-    def __init__(self):
+    def __init__(self, llm: LLMClient):
         token = os.getenv("GITHUB_TOKEN")
         if not token:
             raise ValueError("GITHUB_TOKEN 환경변수가 설정되지 않았습니다.")
         self.fetcher = PRFetcher(token)
         self.chunker = PRDiffChunker()
         self.commenter = PRCommenter(token)
-        self.gemini = GeminiClient()
+        self.llm = llm
 
     async def review(self, pr_url: str) -> PRReviewResult:
         # 1. URL 파싱
@@ -59,14 +56,11 @@ class PRReviewer:
         partial_reviews = []
         for i, chunk in enumerate(chunks, start=1):
             prompt = build_pr_review_prompt(pr_info, chunk, i, len(chunks))
-            partial_reviews.append(await self.gemini.generate(prompt))
-            if i < len(chunks):
-                await asyncio.sleep(REQUEST_INTERVAL_SECONDS)
+            partial_reviews.append(await self.llm.generate(prompt))
 
         # 5. 종합 최종 리뷰 생성
-        await asyncio.sleep(REQUEST_INTERVAL_SECONDS)
         final_prompt = build_pr_final_prompt(pr_info, partial_reviews)
-        final_review = await self.gemini.generate(final_prompt)
+        final_review = await self.llm.generate(final_prompt)
 
         # 6. GitHub PR에 코멘트 게시
         comment_url = await self.commenter.post_review_comment(

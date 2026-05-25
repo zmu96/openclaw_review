@@ -5,7 +5,7 @@ agent/code_fixer.py — 리뷰 결과를 바탕으로 실제 코드 패치를 �
 import re
 from dataclasses import dataclass, field
 
-from agent.gemini_client import GeminiClient
+from agent.gemini_client import LLMClient
 from core.git_ops import FilePatch
 
 
@@ -76,7 +76,7 @@ TOKENS_PER_LINE = 10       # 1줄 ≈ 10토큰
 
 
 class CodeFixer:
-    def __init__(self, llm: GeminiClient):
+    def __init__(self, llm: LLMClient):
         self.llm = llm
 
     async def generate_fix_plan(
