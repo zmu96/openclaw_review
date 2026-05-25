@@ -73,6 +73,11 @@ class GitHubOps:
             file_path = repo_path / patch.path
             file_path.write_text(patch.new_content, encoding="utf-8")
 
+        # author 정보 설정 (서버 환경에서 global config 없을 때 대비)
+        with git_repo.config_writer() as cfg:
+            cfg.set_value("user", "email", "prism@render.com")
+            cfg.set_value("user", "name", "PRism Bot")
+
         # 스테이징 + 커밋
         git_repo.git.add("-A")
         git_repo.git.commit("-m", "fix: PRism 자동 코드 리뷰 수정")
