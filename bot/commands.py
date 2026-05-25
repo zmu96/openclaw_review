@@ -85,9 +85,10 @@ def _build_discord_message(repo_name: str, final_summary: str) -> str:
 
 
 class ActionView(discord.ui.View):
-    def __init__(self, user_id: int):
+    def __init__(self, user_id: int, bot: commands.Bot):
         super().__init__(timeout=None)
         self.user_id = user_id
+        self.bot = bot
 
     async def _disable_buttons(self, interaction: discord.Interaction) -> None:
         for item in self.children:
@@ -112,35 +113,98 @@ class ActionView(discord.ui.View):
             await interaction.followup.send("❌ 세션이 만료되었습니다. `/review`를 다시 실행하세요.")
             return
 
-        await interaction.followup.send("🔧 수정 계획을 생성하고 있습니다. 잠시 기다려 주세요...")
+        # 재계획으로 이미 fix_plan이 있으면 LLM 재호출 없이 바로 ApprovalView 표시
+        if session.fix_plan:
+            fix_plan = session.fix_plan
+        else:
+            await interaction.followup.send("🔧 수정 계획을 생성하고 있습니다. 잠시 기다려 주세요...")
+            try:
+                api_key = key_store.get_key(self.user_id)
+                if not api_key:
+                    await interaction.followup.send("❌ API 키 세션이 만료되었습니다. `/setup`을 다시 실행하세요.")
+                    return
+                llm = LLMClient(api_key=api_key)
+                fixer = CodeFixer(llm)
+                fix_plan = await fixer.generate_fix_plan(session.review_text, session.file_contents)
+                session.fix_plan = fix_plan
+                session_store.save(self.user_id, session)
+            except Exception as e:
+                await interaction.followup.send(f"❌ 수정 계획 생성 실패: {e}")
+                session_store.clear(self.user_id)
+                return
+
+        if not fix_plan.patches:
+            await interaction.followup.send("✅ 리뷰 결과 수정이 필요한 코드가 없습니다.")
+            session_store.clear(self.user_id)
+            return
+
+        files_list = "\n".join(f"  • `{f}`" for f in fix_plan.affected_files)
+        plan_msg = (
+            f"## 📋 수정 계획\n\n"
+            f"{_truncate(fix_plan.summary, 800)}\n\n"
+            f"**수정 파일 ({len(fix_plan.affected_files)}개):**\n{files_list}\n\n"
+            f"이 수정 사항을 GitHub에 PR로 생성할까요?"
+        )
+        await interaction.followup.send(plan_msg, view=ApprovalView(self.user_id))
+
+    @discord.ui.button(label="다시 계획해줘", style=discord.ButtonStyle.blurple, emoji="🔄")
+    async def replan(self, interaction: discord.Interaction, button: discord.ui.Button):
+        if interaction.user.id != self.user_id:
+            await interaction.response.send_message("다른 사용자의 리뷰입니다.", ephemeral=True)
+            return
+
+        self.stop()
+        await interaction.response.send_message("어떻게 수정할까요? 피드백을 입력해주세요.")
+        await self._disable_buttons(interaction)
+
+        def check(m: discord.Message) -> bool:
+            return m.author.id == self.user_id and m.channel.id == interaction.channel.id
+
+        try:
+            feedback_msg = await self.bot.wait_for("message", check=check, timeout=300)
+        except TimeoutError:
+            await interaction.channel.send("⏰ 피드백 입력 시간이 초과되었습니다. `/review`를 다시 실행하세요.")
+            return
+
+        feedback = feedback_msg.content.strip()
+        session = session_store.get(self.user_id)
+        if not session:
+            await interaction.channel.send("❌ 세션이 만료되었습니다. `/review`를 다시 실행하세요.")
+            return
+
+        await interaction.channel.send("🔄 피드백을 반영해서 재계획 중입니다. 잠시 기다려 주세요...")
 
         try:
             api_key = key_store.get_key(self.user_id)
             if not api_key:
-                await interaction.followup.send("❌ API 키 세션이 만료되었습니다. `/setup`을 다시 실행하세요.")
+                await interaction.channel.send("❌ API 키 세션이 만료되었습니다. `/setup`을 다시 실행하세요.")
                 return
+
             llm = LLMClient(api_key=api_key)
             fixer = CodeFixer(llm)
-            fix_plan = await fixer.generate_fix_plan(session.review_text, session.file_contents)
+            fix_plan = await fixer.generate_fix_plan(
+                session.review_text, session.file_contents, user_feedback=feedback
+            )
             session.fix_plan = fix_plan
             session_store.save(self.user_id, session)
 
             if not fix_plan.patches:
-                await interaction.followup.send("✅ 리뷰 결과 수정이 필요한 코드가 없습니다.")
+                await interaction.channel.send("✅ 피드백 반영 결과 수정이 필요한 코드가 없습니다.")
                 session_store.clear(self.user_id)
                 return
 
             files_list = "\n".join(f"  • `{f}`" for f in fix_plan.affected_files)
             plan_msg = (
-                f"## 📋 수정 계획\n\n"
-                f"{_truncate(fix_plan.summary, 800)}\n\n"
+                f"## 📋 재계획 결과 (피드백 반영)\n\n"
+                f"**피드백:** {_truncate(feedback, 200)}\n\n"
+                f"{_truncate(fix_plan.summary, 700)}\n\n"
                 f"**수정 파일 ({len(fix_plan.affected_files)}개):**\n{files_list}\n\n"
-                f"이 수정 사항을 GitHub에 PR로 생성할까요?"
+                f"다음 작업을 선택해주세요."
             )
-            await interaction.followup.send(plan_msg, view=ApprovalView(self.user_id))
+            await interaction.channel.send(plan_msg, view=ActionView(self.user_id, self.bot))
 
         except Exception as e:
-            await interaction.followup.send(f"❌ 수정 계획 생성 실패: {e}")
+            await interaction.channel.send(f"❌ 재계획 실패: {e}")
             session_store.clear(self.user_id)
 
     @discord.ui.button(label="리뷰만 볼게요", style=discord.ButtonStyle.grey, emoji="📄")
@@ -359,7 +423,7 @@ class ReviewCommands(commands.Cog):
             md_path = self.reporter.save_markdown(result)
             md_file = discord.File(str(md_path), filename=md_path.name)
 
-            await send_fn(card_msg, file=md_file, view=ActionView(user_id))
+            await send_fn(card_msg, file=md_file, view=ActionView(user_id, self.bot))
 
         except Exception as e:
             await send_fn(f"❌ 오류 발생: {e}")

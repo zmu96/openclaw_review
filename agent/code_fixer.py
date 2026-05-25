@@ -83,8 +83,11 @@ class CodeFixer:
         self,
         review_text: str,
         file_contents: dict[str, str],
+        user_feedback: str | None = None,
     ) -> FixPlan:
         """리뷰 결과와 파일 내용을 받아 수정 계획을 생성합니다."""
+        if user_feedback:
+            review_text = review_text + f"\n\n## 사용자 피드백\n{user_feedback}"
         selected = self._select_files(review_text, file_contents)
         print(f"[CodeFixer] 선택된 파일 ({len(selected)}개): {list(selected.keys())}")
 
