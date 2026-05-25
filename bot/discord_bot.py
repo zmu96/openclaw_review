@@ -2,6 +2,7 @@
 bot/discord_bot.py — 디스코드 봇 설정 및 실행
 """
 
+import asyncio
 import os
 import discord
 from discord.ext import commands
@@ -36,6 +37,18 @@ class CodeReviewBot:
                 await ctx.send("사용법: `!review <GitHub URL>`")
             else:
                 await ctx.send(f"오류가 발생했습니다: {error}")
+
+        @self.bot.event
+        async def on_interaction(interaction: discord.Interaction):
+            if interaction.type != discord.InteractionType.component:
+                return
+            # View 콜백이 먼저 실행될 수 있도록 한 틱 양보
+            await asyncio.sleep(0)
+            if not interaction.response.is_done():
+                await interaction.response.send_message(
+                    "❌ 봇이 재시작되어 버튼이 만료되었습니다. `/review`를 다시 실행하세요.",
+                    ephemeral=True,
+                )
 
     async def start_bot(self):
         token = os.getenv("DISCORD_BOT_TOKEN")

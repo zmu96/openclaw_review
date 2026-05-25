@@ -86,8 +86,16 @@ def _build_discord_message(repo_name: str, final_summary: str) -> str:
 
 class ActionView(discord.ui.View):
     def __init__(self, user_id: int):
-        super().__init__(timeout=300)
+        super().__init__(timeout=None)
         self.user_id = user_id
+
+    async def _disable_buttons(self, interaction: discord.Interaction) -> None:
+        for item in self.children:
+            item.disabled = True
+        try:
+            await interaction.message.edit(view=self)
+        except discord.HTTPException:
+            pass
 
     @discord.ui.button(label="코드 수정 요청", style=discord.ButtonStyle.green, emoji="🔧")
     async def request_fix(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -95,8 +103,9 @@ class ActionView(discord.ui.View):
             await interaction.response.send_message("다른 사용자의 리뷰입니다.", ephemeral=True)
             return
 
-        self.stop()
         await interaction.response.defer(thinking=True)
+        self.stop()
+        await self._disable_buttons(interaction)
 
         session = session_store.get(self.user_id)
         if not session:
@@ -145,6 +154,7 @@ class ActionView(discord.ui.View):
         await interaction.response.send_message(
             "리뷰 완료! 코드 수정이 필요하면 `/review`를 다시 실행하세요."
         )
+        await self._disable_buttons(interaction)
 
 
 # ── 버튼 뷰: 수정 계획 승인/거절 ────────────────────────────────
@@ -152,8 +162,16 @@ class ActionView(discord.ui.View):
 
 class ApprovalView(discord.ui.View):
     def __init__(self, user_id: int):
-        super().__init__(timeout=600)
+        super().__init__(timeout=None)
         self.user_id = user_id
+
+    async def _disable_buttons(self, interaction: discord.Interaction) -> None:
+        for item in self.children:
+            item.disabled = True
+        try:
+            await interaction.message.edit(view=self)
+        except discord.HTTPException:
+            pass
 
     @discord.ui.button(label="승인 (PR 생성)", style=discord.ButtonStyle.green, emoji="✅")
     async def approve(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -161,8 +179,9 @@ class ApprovalView(discord.ui.View):
             await interaction.response.send_message("다른 사용자의 리뷰입니다.", ephemeral=True)
             return
 
-        self.stop()
         await interaction.response.defer(thinking=True)
+        self.stop()
+        await self._disable_buttons(interaction)
 
         session = session_store.get(self.user_id)
         if not session or not session.fix_plan:
@@ -220,6 +239,7 @@ class ApprovalView(discord.ui.View):
         await interaction.response.send_message(
             "취소되었습니다. 수정이 필요하면 `/review`를 다시 실행하세요."
         )
+        await self._disable_buttons(interaction)
 
 
 # ── Cog: 슬래시 커맨드 등록 ──────────────────────────────────────
