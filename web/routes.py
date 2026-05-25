@@ -39,7 +39,7 @@ def get_pr_reviewer() -> PRReviewer:
     return pr_reviewer
 
 
-@router.get("/health")
+@router.api_route("/health", methods=["GET", "HEAD"])
 async def health():
     return JSONResponse({"status": "ok"})
 

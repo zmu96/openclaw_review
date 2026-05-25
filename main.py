@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-_PORT = int(os.getenv("PORT", 8000))
+_PORT = int(os.getenv("PORT", 10000))
 
 
 def run_web():
