@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ repo_name }} — PRism 리뷰 결과</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    /* ── 점수 카드 그리드 ─── */
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .score-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+    }
+    .score-label {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .score-value {
+      display: block;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 한 줄 요약 ─── */
+    .one-liner {
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      background: var(--bg);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+
+    /* ── 이슈 뱃지 행 ─── */
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .badge {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+    .badge-red    { background: rgba(255,107,107,.12); border: 1px solid rgba(255,107,107,.3); color: #ff6b6b; }
+    .badge-yellow { background: rgba(255,212,59,.12);  border: 1px solid rgba(255,212,59,.3);  color: #ffd43b; }
+    .badge-green  { background: rgba(81,207,102,.12);  border: 1px solid rgba(81,207,102,.3);  color: #51cf66; }
+
+    /* ── 액션 버튼 묶음 ─── */
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .btn-secondary {
+      padding: 14px 28px;
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+      white-space: nowrap;
+    }
+    .btn-secondary:hover { border-color: var(--text-muted); color: var(--text); }
+    .btn-secondary:disabled { opacity: .5; cursor: not-allowed; }
+
+    .btn-success {
+      padding: 14px 28px;
+      background: #2f9e44;
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+      white-space: nowrap;
+    }
+    .btn-success:hover { background: #37b24d; }
+    .btn-success:disabled { opacity: .5; cursor: not-allowed; }
+
+    .btn-danger {
+      padding: 14px 28px;
+      background: transparent;
+      color: var(--error);
+      border: 1px solid rgba(255,107,107,.4);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+      white-space: nowrap;
+    }
+    .btn-danger:hover { background: rgba(255,107,107,.1); }
+    .btn-danger:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* ── 수정 파일 목록 ─── */
+    .file-list {
+      margin: 14px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .file-item {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 12px;
+      color: var(--text-muted);
+    }
+
+    /* ── 피드백 textarea ─── */
+    .feedback-textarea {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: var(--font);
+      resize: vertical;
+      outline: none;
+      transition: border-color .2s;
+      line-height: 1.6;
+    }
+    .feedback-textarea:focus { border-color: var(--accent); }
+    .feedback-textarea::placeholder { color: var(--text-muted); }
+
+    /* ── PR 결과 링크 ─── */
+    .pr-link {
+      display: inline-block;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .pr-link:hover { text-decoration: underline; }
+
+    /* ── 공통 ─── */
+    .hidden { display: none !important; }
+
+    main { padding-bottom: 60px; }
+  </style>
+</head>
+<body data-session-id="{{ session_id }}">
+
+  <header>
+    <h1>📊 {{ repo_name }}</h1>
+    <p class="meta">
+      <a href="{{ repo_url }}" target="_blank">GitHub 보기</a>
+      &middot;
+      <a href="/reports/{{ report_filename }}" download>HTML 보고서 다운로드</a>
+      &middot;
+      <a href="/">← 홈으로</a>
+    </p>
+  </header>
+
+  <main>
+
+    <!-- ① 리뷰 결과 카드 -->
+    {% if card %}
+    <section class="review-section summary" id="review-card">
+      <h2>종합 평가</h2>
+      <div class="score-grid">
+        <div class="score-item">
+          <span class="score-label">전체 점수</span>
+          <span class="score-value">{{ card.get('전체 점수', '—') }}</span>
+        </div>
+        <div class="score-item">
+          <span class="score-label">코드 품질</span>
+          <span class="score-value">{{ card.get('코드 품질', '—') }}</span>
+        </div>
+        <div class="score-item">
+          <span class="score-label">보안</span>
+          <span class="score-value">{{ card.get('보안', '—') }}</span>
+        </div>
+        <div class="score-item">
+          <span class="score-label">구조</span>
+          <span class="score-value">{{ card.get('구조', '—') }}</span>
+        </div>
+      </div>
+      {% if card.get('한 줄 요약') %}
+      <p class="one-liner">{{ card.get('한 줄 요약') }}</p>
+      {% endif %}
+      <div class="badge-row">
+        <span class="badge badge-red">🔴 즉시 수정 필요 {{ card.get('즉시 수정 필요', '—') }}</span>
+        <span class="badge badge-yellow">🟡 개선 권장 {{ card.get('개선 권장', '—') }}</span>
+        <span class="badge badge-green">🟢 잘 작성된 부분 {{ card.get('잘 작성된 부분', '—') }}</span>
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- ② 액션 버튼 -->
+    <section class="review-section" id="action-section">
+      <h2>다음 단계</h2>
+      <div class="action-buttons">
+        <button class="btn-primary" id="btn-fix">🔧 코드 수정 요청</button>
+        <button class="btn-secondary" id="btn-review-only">📄 리뷰만 볼게요</button>
+      </div>
+      <p class="hint" style="margin-top: 10px;">
+        코드 수정 요청 시 AI가 수정 계획을 생성하고 GitHub PR을 자동으로 생성합니다.
+      </p>
+    </section>
+
+    <!-- ③ 수정 계획 생성 중 로딩 -->
+    <div class="loading hidden" id="fix-loading">
+      <div class="spinner"></div>
+      <p>수정 계획을 생성하고 있습니다...<br>
+        <small>파일 규모에 따라 수십 초가 소요될 수 있습니다.</small>
+      </p>
+    </div>
+
+    <!-- ④ 수정 계획 (fix-plan API 응답 후 표시) -->
+    <section class="review-section hidden" id="fix-plan-section">
+      <h2>📋 수정 계획</h2>
+      <pre class="review-text" id="fix-plan-summary"></pre>
+      <div class="file-list" id="fix-plan-files"></div>
+      <div class="action-buttons" style="margin-top: 20px;">
+        <button class="btn-success" id="btn-approve">✅ 승인 (PR 생성)</button>
+        <button class="btn-primary" id="btn-replan">🔄 다시 계획해줘</button>
+        <button class="btn-danger" id="btn-reject">❌ 거절</button>
+      </div>
+    </section>
+
+    <!-- ⑤ 피드백 폼 (다시 계획해줘 클릭 시 표시) -->
+    <section class="review-section hidden" id="feedback-section">
+      <h2>🔄 피드백 입력</h2>
+      <p class="hint" style="margin-bottom: 14px;">
+        어떻게 수정할까요? 피드백을 입력해 주세요.
+      </p>
+      <textarea
+        id="feedback-input"
+        class="feedback-textarea"
+        rows="4"
+        placeholder="예: 보안 이슈를 우선 수정하고, 로깅 코드는 건드리지 마세요."
+      ></textarea>
+      <div class="action-buttons" style="margin-top: 12px;">
+        <button class="btn-primary" id="btn-submit-feedback">재계획 요청</button>
+        <button class="btn-secondary" id="btn-cancel-feedback">취소</button>
+      </div>
+    </section>
+
+    <!-- ⑥ PR 생성 중 로딩 -->
+    <div class="loading hidden" id="pr-loading">
+      <div class="spinner"></div>
+      <p>GitHub에 PR을 생성하고 있습니다...<br>
+        <small>브랜치 생성 및 코드 푸시 중입니다.</small>
+      </p>
+    </div>
+
+    <!-- ⑦ PR 결과 (create-pr API 응답 후 표시) -->
+    <section class="review-section summary hidden" id="pr-result-section">
+      <h2>✅ PR 생성 완료!</h2>
+      <p style="margin: 14px 0;">
+        <a id="pr-result-link" href="#" target="_blank" class="pr-link">
+          → GitHub에서 PR 확인하기
+        </a>
+      </p>
+      <a href="/" class="btn-secondary" style="text-decoration: none; display: inline-block;">
+        ← 홈으로 돌아가기
+      </a>
+    </section>
+
+    <!-- ⑧ 에러 메시지 (API 오류 시 표시) -->
+    <div class="alert alert-error hidden" id="error-box" style="margin: 0 24px 20px;"></div>
+
+    <!-- ⑨ 상세 리뷰 -->
+    <section class="review-section" id="detail-structure">
+      <h2>🔍 구조 분석</h2>
+      <pre class="review-text">{{ structure_review }}</pre>
+    </section>
+
+    {% for review in chunk_reviews %}
+    <section class="review-section">
+      <h2>📝 코드 리뷰 ({{ loop.index }} / {{ chunk_reviews | length }})</h2>
+      <pre class="review-text">{{ review }}</pre>
+    </section>
+    {% endfor %}
+
+    <section class="review-section">
+      <h2>📊 최종 요약</h2>
+      <pre class="review-text">{{ final_summary }}</pre>
+    </section>
+
+  </main>
+
+  <script src="/static/js/main.js"></script>
+</body>
+</html>

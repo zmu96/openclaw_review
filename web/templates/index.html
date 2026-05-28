@@ -5,6 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PRism</title>
   <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    /* ── 탭 네비게이션 ─── */
+    .tabs {
+      display: flex;
+      gap: 2px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+    .tab-btn {
+      padding: 10px 26px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color .15s, border-color .15s;
+    }
+    .tab-btn:hover  { color: var(--text); }
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      font-weight: 600;
+    }
+    .tab-panel.hidden { display: none; }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -20,50 +48,102 @@
       </div>
       {% endif %}
 
-      <form method="POST" action="/review" id="review-form">
-        <div class="input-group">
-          <input
-            type="url"
-            name="repo_url"
-            id="repo_url"
-            placeholder="https://github.com/username/repository"
-            required
-            class="url-input"
-          />
-          <button type="submit" class="btn-primary" id="submit-btn">
-            분석 시작
-          </button>
-        </div>
-        <p class="hint">예: https://github.com/pallets/flask</p>
-      </form>
-
-      <div class="loading" id="loading" style="display:none">
-        <div class="spinner"></div>
-        <p>레포지토리를 분석 중입니다...<br>
-        <small>프로젝트 규모에 따라 수 분이 소요될 수 있습니다.</small></p>
+      <!-- 탭 네비게이션 -->
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" role="tab" data-tab="repo" aria-selected="true">
+          레포 리뷰
+        </button>
+        <button class="tab-btn" role="tab" data-tab="pr" aria-selected="false">
+          PR 리뷰
+        </button>
       </div>
 
-      <div class="divider">또는</div>
+      <!-- 탭 1: 레포 리뷰 -->
+      <div class="tab-panel" id="tab-repo" role="tabpanel">
+        <form method="POST" action="/review" id="review-form">
+          <div class="input-group">
+            <input
+              type="password"
+              name="api_key"
+              id="api_key"
+              placeholder="Anthropic API 키 (sk-ant-...)"
+              required
+              class="url-input"
+              autocomplete="off"
+            />
+          </div>
+          <div class="input-group">
+            <input
+              type="url"
+              name="repo_url"
+              id="repo_url"
+              placeholder="https://github.com/username/repository"
+              required
+              class="url-input"
+            />
+            <button type="submit" class="btn-primary" id="submit-btn">
+              분석 시작
+            </button>
+          </div>
+          <p class="hint">예: https://github.com/pallets/flask</p>
+          <p class="hint" style="margin-top: 4px;">
+            🔒 입력한 API 키는 리뷰 세션 동안만 암호화 저장되며 세션 종료 시 삭제됩니다.
+          </p>
+        </form>
 
-      <form method="POST" action="/pr-review" id="pr-review-form">
-        <p style="font-size:0.95rem; font-weight:600; margin-bottom:10px; color:var(--text-muted);">
-          GitHub PR 리뷰 자동 생성
-        </p>
-        <div class="input-group">
-          <input
-            type="url"
-            name="pr_url"
-            placeholder="https://github.com/username/repo/pull/123"
-            required
-            class="url-input"
-          />
-          <button type="submit" class="btn-primary" id="pr-submit-btn">
-            PR 리뷰
-          </button>
+        <div class="loading" id="loading" style="display:none">
+          <div class="spinner"></div>
+          <p>레포지토리를 분석 중입니다...<br>
+            <small>프로젝트 규모에 따라 수 분이 소요될 수 있습니다.</small>
+          </p>
         </div>
-        <p class="hint">리뷰 결과가 자동으로 해당 PR에 코멘트로 게시됩니다</p>
-      </form>
+      </div>
 
+      <!-- 탭 2: PR 리뷰 -->
+      <div class="tab-panel hidden" id="tab-pr" role="tabpanel">
+        <p class="hint" style="margin-bottom: 18px; font-size: 0.92rem; line-height: 1.6;">
+          PR URL을 입력하면 리뷰 결과가 해당 PR에 자동으로 코멘트로 게시됩니다.
+        </p>
+        <form method="POST" action="/pr-review" id="pr-review-form">
+          <div class="input-group">
+            <input
+              type="password"
+              name="github_token"
+              id="github_token"
+              placeholder="GitHub Personal Access Token (ghp_...)"
+              required
+              class="url-input"
+              autocomplete="off"
+            />
+          </div>
+          <div class="input-group">
+            <input
+              type="url"
+              name="pr_url"
+              id="pr_url"
+              placeholder="https://github.com/username/repo/pull/123"
+              required
+              class="url-input"
+            />
+            <button type="submit" class="btn-primary" id="pr-submit-btn">
+              PR 리뷰
+            </button>
+          </div>
+          <p class="hint">예: https://github.com/pallets/flask/pull/42</p>
+          <p class="hint" style="margin-top: 4px;">
+            🔒 입력한 GitHub 토큰은 PR 코멘트 게시 후 즉시 삭제됩니다.
+          </p>
+        </form>
+
+        <div class="loading hidden" id="pr-review-loading">
+          <div class="spinner"></div>
+          <p>PR을 분석하고 코멘트를 게시하는 중입니다...<br>
+            <small>잠시 기다려 주세요.</small>
+          </p>
+        </div>
+      </div>
+
+      <!-- 피처 카드 -->
       <section class="features">
         <div class="feature-card">
           <span class="icon">📁</span>
