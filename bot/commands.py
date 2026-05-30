@@ -2,11 +2,11 @@
 bot/commands.py — 디스코드 슬래시 커맨드 및 리뷰/수정 플로우
 """
 
-import os
 import re
 from datetime import datetime
 
 import discord
+import httpx
 from discord import app_commands
 from discord.ext import commands
 
@@ -255,9 +255,9 @@ class ApprovalView(discord.ui.View):
         await interaction.followup.send("🚀 GitHub에 브랜치를 생성하고 PR을 올리는 중...")
 
         try:
-            github_token = os.getenv("GITHUB_TOKEN")
+            github_token = key_store.get_gh_token(self.user_id)
             if not github_token:
-                raise ValueError("GITHUB_TOKEN이 설정되지 않았습니다.")
+                raise ValueError("GitHub 토큰이 등록되지 않았습니다. `/setup`을 다시 실행하세요.")
             if not session.repo_path or not session.repo_path.exists():
                 raise ValueError("로컬 클론이 존재하지 않습니다. /review를 다시 실행하세요.")
 
@@ -314,38 +314,74 @@ class ReviewCommands(commands.Cog):
         self.bot = bot
         self.reporter = Reporter()
 
-    @app_commands.command(name="setup", description="Anthropic API 키를 DM으로 등록합니다")
+    @app_commands.command(name="setup", description="Anthropic API 키와 GitHub 토큰을 DM으로 등록합니다")
     async def setup_slash(self, interaction: discord.Interaction):
         await interaction.response.send_message("🔑 DM으로 안내를 보냈습니다.", ephemeral=True)
         try:
             dm = await interaction.user.create_dm()
+            user_id = interaction.user.id
+
+            def dm_check(m: discord.Message) -> bool:
+                return m.author.id == user_id and isinstance(m.channel, discord.DMChannel)
+
+            # ── Step 1: Anthropic API 키 ──────────────────────────
             await dm.send(
-                "**PRism API 키 설정**\n\n"
+                "**PRism 설정 (1/2) — Anthropic API 키**\n\n"
                 "Anthropic API 키를 이 채팅에 붙여넣기 해주세요.\n"
                 "키는 `sk-ant-...` 형식입니다.\n"
                 "<https://console.anthropic.com> 에서 발급받을 수 있습니다.\n\n"
                 "⏰ 2분 안에 입력해 주세요.\n"
                 "⚠️ 전송 후 보안을 위해 메시지를 직접 삭제해 주세요."
             )
-
-            def check(m: discord.Message) -> bool:
-                return m.author.id == interaction.user.id and isinstance(m.channel, discord.DMChannel)
-
-            msg = await self.bot.wait_for("message", check=check, timeout=120)
+            msg = await self.bot.wait_for("message", check=dm_check, timeout=120)
             api_key = msg.content.strip()
 
             if not api_key.startswith("sk-ant-"):
                 await dm.send("❌ 올바른 Anthropic API 키 형식이 아닙니다 (`sk-ant-...`). `/setup`을 다시 실행하세요.")
                 return
 
-            await dm.send("🔍 키 유효성을 확인 중입니다...")
+            await dm.send("🔍 Anthropic 키 유효성을 확인 중입니다...")
             ok, err = await LLMClient(api_key=api_key).validate()
             if not ok:
-                await dm.send(f"❌ 키 검증 실패: {err}\n올바른 키를 확인 후 `/setup`을 다시 실행하세요.")
+                await dm.send(f"❌ Anthropic 키 검증 실패: {err}\n올바른 키를 확인 후 `/setup`을 다시 실행하세요.")
                 return
 
-            key_store.set_key(interaction.user.id, api_key)
-            await dm.send("✅ API 키가 등록되었습니다. 이제 `/review` 명령어를 사용할 수 있습니다.")
+            key_store.set_key(user_id, api_key)
+            await dm.send("✅ Anthropic API 키가 등록되었습니다.")
+
+            # ── Step 2: GitHub Personal Access Token ─────────────
+            await dm.send(
+                "**PRism 설정 (2/2) — GitHub Personal Access Token**\n\n"
+                "GitHub PAT를 이 채팅에 붙여넣기 해주세요.\n"
+                "토큰은 `ghp_...` 또는 `github_pat_...` 형식입니다.\n"
+                "<https://github.com/settings/tokens> 에서 발급받을 수 있습니다.\n"
+                "필요 권한: `repo` (PR 생성용)\n\n"
+                "⏰ 2분 안에 입력해 주세요.\n"
+                "⚠️ 전송 후 보안을 위해 메시지를 직접 삭제해 주세요."
+            )
+            gh_msg = await self.bot.wait_for("message", check=dm_check, timeout=120)
+            gh_token = gh_msg.content.strip()
+
+            await dm.send("🔍 GitHub 토큰 유효성을 확인 중입니다...")
+            try:
+                async with httpx.AsyncClient(timeout=10) as client:
+                    resp = await client.get(
+                        "https://api.github.com/user",
+                        headers={"Authorization": f"Bearer {gh_token}"},
+                    )
+                if resp.status_code == 401:
+                    await dm.send("❌ GitHub 토큰 검증 실패: 유효하지 않은 토큰입니다. `/setup`을 다시 실행하세요.")
+                    return
+                resp.raise_for_status()
+            except httpx.HTTPError as e:
+                await dm.send(f"❌ GitHub 토큰 검증 중 오류: {e}\n`/setup`을 다시 실행하세요.")
+                return
+
+            key_store.set_gh_token(user_id, gh_token)
+            await dm.send(
+                "✅ GitHub 토큰이 등록되었습니다.\n\n"
+                "설정 완료! 이제 `/review` 명령어를 사용할 수 있습니다."
+            )
 
         except TimeoutError:
             try:
@@ -358,13 +394,24 @@ class ReviewCommands(commands.Cog):
                 ephemeral=True,
             )
 
-    @app_commands.command(name="deletekey", description="등록된 API 키를 삭제합니다")
+    @app_commands.command(name="deletekey", description="등록된 API 키와 GitHub 토큰을 삭제합니다")
     async def deletekey_slash(self, interaction: discord.Interaction):
-        if key_store.has_key(interaction.user.id):
-            key_store.delete_key(interaction.user.id)
-            await interaction.response.send_message("🗑️ API 키가 삭제되었습니다.", ephemeral=True)
+        user_id = interaction.user.id
+        had_api = key_store.has_key(user_id)
+        had_gh = key_store.has_gh_token(user_id)
+        key_store.delete_key(user_id)
+        key_store.delete_gh_token(user_id)
+        if had_api or had_gh:
+            parts = []
+            if had_api:
+                parts.append("Anthropic API 키")
+            if had_gh:
+                parts.append("GitHub 토큰")
+            await interaction.response.send_message(
+                f"🗑️ {', '.join(parts)}가 삭제되었습니다.", ephemeral=True
+            )
         else:
-            await interaction.response.send_message("등록된 API 키가 없습니다.", ephemeral=True)
+            await interaction.response.send_message("등록된 키가 없습니다.", ephemeral=True)
 
     @commands.command(name="review")
     async def review_prefix(self, ctx: commands.Context, repo_url: str):
